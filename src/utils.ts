@@ -15,8 +15,21 @@ export const create = (object: string, data: any) => {
   return httpRequest(url, options);
 };
 
-export const getOne = (object: string, id: string) => {
-  let url = `${defaults.API_URL}/${object}/${id}`;
+genQuery = (args: object) => {
+  var res = ''
+  var isFirst = true
+  for (var key in args) {
+    if (!isFirst) {
+      res = `${res}&`
+    }
+    res = `${res}${key}=${value}`
+    isFirst = false
+  }
+}
+
+export const getOne = (object: string, args:object) => {
+  query = genQuery(args)
+  let url = `${defaults.API_URL}/${object}§?${query}`;
   return httpRequest(url);
 };
 

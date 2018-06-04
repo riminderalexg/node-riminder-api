@@ -13,48 +13,82 @@ export default {
     return getList("sources", options);
   },
   getSource: (id: string) => {
-    return getOne("source", id);
+    let query = {
+      'source_id': id
+    }
+    return getOne("source", query);
+  },
+  getFilters: (options?: RiminderObjectsOptions) => {
+    return getList("filters", options);
+  },
+  getFilter: (id: string, reference: string) => {
+    let query = {
+    }
+    filter_id ? query['filter_id'] = id : 1
+    filter_reference ? query['filter_reference'] = id : 1
+    return getOne("filter", query);
   },
   getProfiles: (options?: RiminderObjectsOptions) => {
     return getList("profiles", options);
   },
-  getProfile: (id: string, sourceID: string) => {
-    let url = `${defaults.API_URL}/profile/${id}?source_id=${sourceID}`;
-    return httpRequest(url);
+  getProfile: (id: string, source_id: string, profile_reference: string) => {
+    let query = {
+      'source_id': source_id,
+    }
+    profile_id ? query['profile_id'] = id : 1
+    profile_reference ? query['profile_reference'] = id : 1
+    return getOne("profile", query);
   },
-  createResumeForProfile: (profileID: string, sourceID: string, file: File) => {
+  createResumeForProfile: (profile_id: string, source_id: string, file: File) => {
 
   },
-  getProfileDocuments: (id: string, sourceID: string) => {
-    let url = `${defaults.API_URL}/profile/${id}/documents?source_id=${sourceID}`;
-    return httpRequest(url);
+  getProfileDocuments: (id: string, source_id: string, profile_reference: string) => {
+    let query = {
+      'source_id': source_id,
+    }
+    profile_id ? query['profile_id'] = id : 1
+    profile_reference ? query['profile_reference'] = id : 1
+    return getOne("profile/documents", query);
   },
-  getProfileExtractions: (id: string, sourceID: string) => {
-    let url = `${defaults.API_URL}/profile/${id}/extractions?source_id=${sourceID}`;
-    return httpRequest(url);
+  getProfileParsing: (id: string, source_id: string, profile_reference: string) => {
+    let query = {
+      'source_id': source_id,
+    }
+    profile_id ? query['profile_id'] = id : 1
+    profile_reference ? query['profile_reference'] = id : 1
+    return getOne("profile/parsing", query);
   },
-  getProfileJobs: (id: string, sourceID: string) => {
-    let url = `${defaults.API_URL}/profile/${id}/jobs?source_id=${sourceID}`;
-    return httpRequest(url);
+  getProfileScoring: (id: string, source_id: string, profile_reference: string) => {
+    let query = {
+      'source_id': source_id,
+    }
+    profile_id ? query['profile_id'] = id : 1
+    profile_reference ? query['profile_reference'] = id : 1
+    return getOne("profile/scoring", query);
   },
-  updateProfileStage: (id: string, sourceID: string, jobID: string, stage: string) => {
-    let url = `${defaults.API_URL}/profile/${id}/stage`;
+  updateProfileStage: (id: string, source_id: string, filter_id: string, stage: string, profile_id, profile_reference, filter_reference) => {
+    let url = `${defaults.API_URL}/profile/stage`;
     let body = {
-      source_id: sourceID,
-      job_id: jobID,
+      source_id: source_id,
       stage: stage,
     };
+    profile_id ? query['profile_id'] = id : 1
+    profile_reference ? query['profile_reference'] = id : 1
+    filter_id ? query['filter_id'] = id : 1
+    filter_reference ? query['filter_reference'] = id : 1
 
     return httpRequest(url, { body });
   },
-  updateProfileRating: (id: string, sourceID: string, jobID: string, rating: number) => {
-    let url = `${defaults.API_URL}/profile/${id}/rating`;
+  updateProfileRating: (id: string, source_id: string, filter_id: string, rating: number, profile_id, profile_reference, filter_reference) => {
+    let url = `${defaults.API_URL}/profile/rating`;
     let body = {
-      source_id: sourceID,
-      job_id: jobID,
+      source_id: source_id,
       rating: rating,
     };
-
+    profile_id ? query['profile_id'] = id : 1
+    profile_reference ? query['profile_reference'] = id : 1
+    filter_id ? query['filter_id'] = id : 1
+    filter_reference ? query['filter_reference'] = id : 1
     return httpRequest(url, { body });
   }
 };
