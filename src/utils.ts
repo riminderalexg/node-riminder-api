@@ -15,10 +15,11 @@ export const create = (object: string, data: any) => {
   return httpRequest(url, options);
 };
 
-genQuery = (args: object) => {
+export const genQuery = (args: any) => {
   var res = ''
   var isFirst = true
   for (var key in args) {
+    let value:any = args[key]
     if (!isFirst) {
       res = `${res}&`
     }
@@ -28,7 +29,7 @@ genQuery = (args: object) => {
 }
 
 export const getOne = (object: string, args:object) => {
-  query = genQuery(args)
+  let query = genQuery(args)
   let url = `${defaults.API_URL}/${object}§?${query}`;
   return httpRequest(url);
 };

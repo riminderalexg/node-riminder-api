@@ -581,6 +581,12 @@ var _http = require("./http");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function add_if_not_empty(obj, key, elem) {
+    if (elem){
+      obj[key] = elem
+    }
+}
+
 exports.default = {
     getSources: function getSources(options) {
         return (0, _utils.getList)("sources", options);
@@ -599,68 +605,68 @@ exports.default = {
           'filter_id': id,
           'filter_reference': reference
         }
-        filter_id ? query['filter_id'] = id : 1
-        filter_reference ? query['filter_reference'] = id : 1
+        add_if_not_empty(query, 'filter_id', filter_id)
+        add_if_not_empty(query, 'filter_reference', filter_reference)
         return (0, _utils.getOne)("filter", query);
     },
     getProfiles: function getProfiles(options) {
         return (0, _utils.getList)("profiles", options);
     },
-    getProfile: function getProfile(id, source_id, profile_reference, profile_id) {
+    getProfile: function getProfile(profile_id, source_id, profile_reference) {
         let query = {
           'source_id': source_id,
         }
-        profile_id ? query['profile_id'] = id : 1
-        profile_reference ? query['profile_reference'] = id : 1
+        add_if_not_empty(query, 'profile_id', profile_id)
+        add_if_not_empty(query, 'profile_reference', profile_reference)
         return (0, _utils.getOne)("profile", query);
     },
     createResumeForProfile: function createResumeForProfile(profile_id, source_id, file) {},
-    getDocuments: function getDocuments(id, source_id, profile_reference, profile_id) {
+    getDocuments: function getDocuments(profile_id, source_id, profile_reference) {
         let query = {
           'source_id': source_id,
         }
-        profile_id ? query['profile_id'] = id : 1
-        profile_reference ? query['profile_reference'] = id : 1
+        add_if_not_empty(query, 'profile_id', profile_id)
+        add_if_not_empty(query, 'profile_reference', profile_reference)
         return (0, _utils.getOne)("profile/documents", query);
     },
-    getScoring: function getScoring(id, source_id, profile_reference, profile_id) {
+    getScoring: function getScoring(profile_id, source_id, profile_reference) {
         let query = {
           'source_id': source_id,
         }
-        profile_id ? query['profile_id'] = id : 1
-        profile_reference ? query['profile_reference'] = id : 1
+        add_if_not_empty(query, 'profile_id', profile_id)
+        add_if_not_empty(query, 'profile_reference', profile_reference)
         return (0, _utils.getOne)("profile/scoring", query);
     },
-    getParsing: function getParsing(id, source_id, profile_reference, profile_id) {
+    getParsing: function getParsing(profile_id, source_id, profile_reference) {
         let query = {
           'source_id': source_id,
         }
-        profile_id ? query['profile_id'] = id : 1
-        profile_reference ? query['profile_reference'] = id : 1
+        add_if_not_empty(query, 'profile_id', profile_id)
+        add_if_not_empty(query, 'profile_reference', profile_reference)
         return (0, _utils.getOne)("profile/parsing", query);
     },
-    updateProfileStage: function updateProfileStage(id, source_id, job_id, stage, profile_id, profile_reference, filter_reference) {
+    updateProfileStage: function updateProfileStage(profile_id, source_id, job_id, stage, profile_reference, filter_reference) {
         var url = _defaults2.default.API_URL + "/profile/stage";
         var body = {
             source_id: source_id,
             stage: stage
         };
-        profile_id ? query['profile_id'] = id : 1
-        profile_reference ? query['profile_reference'] = id : 1
-        filter_id ? query['filter_id'] = id : 1
-        filter_reference ? query['filter_reference'] = id : 1
+        add_if_not_empty(query, 'profile_id', profile_id)
+        add_if_not_empty(query, 'profile_reference', profile_reference)
+        add_if_not_empty(query, 'filter_id', filter_id)
+        add_if_not_empty(query, 'filter_reference', filter_reference)
         return (0, _http.httpRequest)(url, { body: body });
     },
-    updateProfileRating: function updateProfileRating(id, source_id, job_id, rating, profile_id, profile_reference, filter_reference) {
+    updateProfileRating: function updateProfileRating(profile_id, source_id, job_id, rating, profile_reference, filter_reference) {
         var url = _defaults2.default.API_URL + "/profile/rating";
         var body = {
             source_id: source_id,
             rating: rating
         };
-        profile_id ? query['profile_id'] = id : 1
-        profile_reference ? query['profile_reference'] = id : 1
-        filter_id ? query['filter_id'] = id : 1
-        filter_reference ? query['filter_reference'] = id : 1
+        add_if_not_empty(query, 'profile_id', profile_id)
+        add_if_not_empty(query, 'profile_reference', profile_reference)
+        add_if_not_empty(query, 'filter_id', filter_id)
+        add_if_not_empty(query, 'filter_reference', filter_reference)
         return (0, _http.httpRequest)(url, { body: body });
     }
 };
@@ -694,7 +700,7 @@ var create = exports.create = function create(object, data) {
     return (0, _http.httpRequest)(url, options);
 };
 
-genQuery = (args: object) => {
+function genQuery (args) {
   var res = ''
   var isFirst = true
   for (var key in args) {
